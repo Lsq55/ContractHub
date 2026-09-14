@@ -36,7 +36,7 @@ function badge(s){const x=labels[s]||[s,'draft'];return `<span class="badge ${x[
 function table(headers,rows){return rows.length?`<table class="table"><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`:`<div class="empty">暂无记录</div>`}
 function pager(total,page,size,handler){
   const pages=Math.max(1,Math.ceil(total/size));
-  return `<div class="toolbar" style="justify-content:flex-end;margin-top:12px"><span class="muted">共 ${total} 条 · 第 ${page}/${pages} 页</span><button class="ghost" ${page<=1?'disabled':''} onclick="${handler}(${page-1})">上一页</button><button class="ghost" ${page>=pages?'disabled':''} onclick="${handler}(${page+1})">下一页</button></div>`;
+  return `<div class="toolbar" style="justify-content:flex-end;margin-top:12px"><span class="muted">共 ${total} 条 · 第 ${page}/${pages} 页</span><button class="ghost" ${page<=1?'disabled title="已经是第一页"':''} onclick="${handler}(${page-1})">上一页</button><button class="ghost" ${page>=pages?'disabled title="已经是最后一页"':''} onclick="${handler}(${page+1})">下一页</button></div>`;
 }
 let modalCloseHandler=null,modalDirtyCheck=null;
 /**
@@ -666,12 +666,12 @@ function newTemplate(){
     e.preventDefault();
     const button=$('#create-template-submit'),error=$('#template-form-error');
     if(button.disabled)return;
-    button.disabled=true;button.textContent='正在创建…';error.textContent='';
+    button.disabled=true;button.classList.add('busy');button.textContent='正在创建…';error.textContent='';
     try{
       await api('/templates',{method:'POST',body:JSON.stringify(Object.fromEntries(new FormData(form)))});
       hideModal();toast('模板已创建，请进入详情创建版本并上传 DOCX 母版');templates();
     }catch(x){error.textContent=x.message;toast('创建失败：'+x.message)}
-    finally{button.disabled=false;button.textContent='创建模板'}
+    finally{button.disabled=false;button.classList.remove('busy');button.textContent='创建模板'}
   };
 }
 function changePassword(){
@@ -717,14 +717,14 @@ $('#login-form').addEventListener('submit',async e=>{
   const form=e.currentTarget,button=form.querySelector('button');
   if(button.disabled)return;
   const data=Object.fromEntries(new FormData(form));
-  button.disabled=true;button.textContent='正在登录…';$('#login-error').textContent='';
+  button.disabled=true;button.classList.add('busy');button.textContent='正在登录…';$('#login-error').textContent='';
   try{
     const user=await api('/auth/login',{method:'POST',body:JSON.stringify(data)});
     form.reset();setSession(user);
     if(user.must_change_password)$('#password-form input').focus();
     else show('dashboard');
   }catch(err){$('#login-error').textContent=err.message}
-  finally{button.disabled=false;button.textContent='登录系统'}
+  finally{button.disabled=false;button.classList.remove('busy');button.textContent='登录系统'}
 });
 $('#password-form').addEventListener('submit',async e=>{
   e.preventDefault();
@@ -733,18 +733,18 @@ $('#password-form').addEventListener('submit',async e=>{
   const data=Object.fromEntries(new FormData(form));
   $('#password-error').textContent='';
   if(data.new_password!==data.confirm_password){$('#password-error').textContent='两次输入的新密码不一致';return}
-  button.disabled=true;button.textContent='正在修改…';
+  button.disabled=true;button.classList.add('busy');button.textContent='正在修改…';
   try{
     const user=await api('/auth/change-password',{method:'POST',body:JSON.stringify({old_password:data.old_password,new_password:data.new_password})});
     form.reset();setSession(user);show('dashboard');toast('密码已修改');
   }catch(err){$('#password-error').textContent=err.message}
-  finally{button.disabled=false;button.textContent='修改密码并进入工作台'}
+  finally{button.disabled=false;button.classList.remove('busy');button.textContent='修改密码并进入工作台'}
 });
 $('#logout').onclick=async()=>{
-  const button=$('#logout');if(button.disabled)return;button.disabled=true;
+  const button=$('#logout');if(button.disabled)return;button.disabled=true;button.classList.add('busy');
   try{await api('/auth/logout',{method:'POST',body:'{}'});setSession(null);$('#login-error').textContent='';$('#login-form input').focus()}
   catch(err){if(err.status===401)setSession(null);else toast('退出失败：'+err.message)}
-  finally{button.disabled=false}
+  finally{button.disabled=false;button.classList.remove('busy')}
 };
 $('#change-password').onclick=changePassword;
 $('#contract-search').oninput=()=>{contractPage=1;contracts()};

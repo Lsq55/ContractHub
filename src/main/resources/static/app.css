@@ -11,7 +11,11 @@ body:not(.authenticated) #workspace{display:none!important}
 /* Author display rules must never override the hidden state. */
 [hidden]{display:none!important}
 body.password-required header nav{display:none}
-button:disabled{cursor:wait;opacity:.65}
+/* 禁用按钮用"禁止"光标，不要用 cursor:wait —— 分页的上一页/下一页在首/末页是 disabled，
+   用 wait 会让鼠标一移上去就变成一直转圈的"忙"光标，看起来像卡住了，还会让人以为点不动是故障。 */
+button:disabled{cursor:not-allowed;opacity:.65}
+/* 真正"正在提交/处理中"的按钮（登录、创建、改密…）由脚本加上这个类，保留忙碌光标。 */
+button.busy{cursor:progress}
 #password-change .login-card{width:min(440px,100%)}
 /* 深灰色工作台主题 */
 :root{--ink:#e8edf5;--muted:#9aa6b8;--line:#303a4a;--bg:#171b22;--blue:#5d8dff;--blue2:#22345e;--green:#37c895;--orange:#e7a34e;--red:#ef6a77}body{background:var(--bg);color:var(--ink)}header,.panel,.stats>div,.login-card,.modal-card{background:#202631;border-color:var(--line);color:var(--ink)}header{box-shadow:0 1px 0 #0006}.toolbar input,.toolbar select,input,select,.form-grid textarea{background:#171c25;border-color:#3a4658;color:var(--ink)}.ghost{background:#252d3a;border-color:#465367;color:var(--ink)}nav a{color:#aeb9ca}.sub,p,.muted,.stats span,.stats small{color:var(--muted)}.table th,.table td{border-color:var(--line)}.modal{background:#080b10b8}.login-card{box-shadow:0 14px 48px #0006}.toast{background:#e8edf5;color:#151a22}.version-row{border-color:var(--line)}

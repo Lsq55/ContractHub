@@ -125,6 +125,14 @@ async function main() {
     // 6) 不存在的对象仍是干净的 404
     r = await call('/contracts/does-not-exist');
     check('不存在的合同 → 404', r.status === 404, r.status + ' ' + JSON.stringify(r.body));
+
+    // 7) 首页样式：禁用按钮不能是"忙"光标（分页上一页/下一页在首末页是 disabled，
+    //    用 cursor:wait 会让鼠标一直转圈，看起来像卡死）
+    const css = await (await fetch(`http://127.0.0.1:${port}/app.css`)).text();
+    check('禁用的按钮用 not-allowed 而不是 wait', /button:disabled\{[^}]*cursor:not-allowed/.test(css) && !/button:disabled\{[^}]*cursor:wait/.test(css), css.match(/button:disabled\{[^}]*\}/)?.[0]);
+    check('提交中的按钮保留忙碌光标（.busy）', /button\.busy\{[^}]*cursor:(progress|wait)/.test(css), css.match(/button\.busy\{[^}]*\}/)?.[0]);
+    const js = await (await fetch(`http://127.0.0.1:${port}/app.js`)).text();
+    check('分页按钮带禁用原因提示', js.includes('disabled title="已经是第一页"') && js.includes('disabled title="已经是最后一页"'), '');
   } finally {
     server.kill();
     await sleep(500);
