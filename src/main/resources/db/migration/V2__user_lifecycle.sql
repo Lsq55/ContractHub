@@ -1,0 +1,3 @@
+ALTER TABLE users ADD COLUMN deleted_at TIMESTAMP;
+ALTER TABLE users ADD COLUMN deleted_by VARCHAR(36);
+ALTER TABLE users ADD COLUMN delete_reason TEXT;

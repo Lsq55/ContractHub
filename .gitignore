@@ -1,0 +1,53 @@
+# ============================================================================
+#  契衡合同管理系统 —— 不要提交的东西
+#  最重要的一条：data/ 里是运行时数据（数据库文件、上传的合同母版、生成的 Word/PDF），
+#  里面是真实业务内容，绝对不要提交到 GitHub。
+# ============================================================================
+
+# 运行时数据：H2 数据库文件、上传文件、生成的 Word/PDF、日志
+data/
+rendered_contract/
+*.log
+
+# 构建产物
+target/
+build/
+!.mvn/wrapper/maven-wrapper.jar
+
+# 迁移/备份产物（数据库快照、迁移包）
+db/*.sql
+qiheng-db.sql
+*.dump
+迁移包/
+
+# 本地覆盖配置（数据库密码等，见 docs/部署与运维手册.md）
+local-config.bat
+.env
+.env.local
+application-local.yml
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse / NetBeans / VS Code
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+.vscode/
+
+# 操作系统
+.DS_Store
+Thumbs.db
+desktop.ini

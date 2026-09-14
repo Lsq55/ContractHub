@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: qiheng-contract-hub
+  datasource:
+    url: ${DATABASE_URL:jdbc:h2:file:./data/qiheng;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH}
+    username: ${DATABASE_USERNAME:sa}
+    password: ${DATABASE_PASSWORD:}
+  servlet:
+    multipart:
+      max-file-size: ${MAX_UPLOAD_MB:30}MB
+      max-request-size: 32MB
+  jackson:
+    time-zone: Asia/Shanghai
+  web:
+    resources:
+      cache:
+        period: 0
+server:
+  port: ${PORT:8080}
+  address: ${BIND_ADDRESS:127.0.0.1}
+  error:
+    include-message: never
+    include-stacktrace: never
+  tomcat:
+    max-swallow-size: 32MB
+app:
+  storage: ${STORAGE_ROOT:./data/files}
+  secure-cookie: ${SECURE_COOKIE:false}
+  worker-enabled: ${WORKER_ENABLED:true}
+  worker-concurrency: ${WORKER_CONCURRENCY:1}
+  convert-timeout: ${CONVERT_TIMEOUT_SECONDS:120}
+  libreoffice: ${LIBREOFFICE_PATH:soffice}
+  render-profile: ${RENDER_PROFILE:libreoffice-noto-cjk-v1}
+  scan-command: ${SCAN_COMMAND:}
+  # 登录失败限速：账户维度 10 次/15 分钟，来源维度放宽到 50 次/15 分钟，
+  # 避免共享出口 IP（NAT、反向代理）上个别用户输错密码就锁死全部人。
+  login-account-limit: ${LOGIN_ACCOUNT_LIMIT:10}
+  login-source-limit: ${LOGIN_SOURCE_LIMIT:50}
+  # 仅当应用前有可信反向代理时才置为 true，否则客户端可伪造 X-Forwarded-For。
+  trust-forwarded-header: ${TRUST_FORWARDED_HEADER:false}
+  # 全文确认凭据有效期（分钟）。
+  review-ttl-minutes: ${REVIEW_TTL_MINUTES:30}
+  # 回收未落库的临时上传文件与过期登录失败计数。
+  cleanup-enabled: ${CLEANUP_ENABLED:true}
+  # 孤儿文件最短保留时间（小时），小于该时长的文件不会被清理任务删除。
+  orphan-retention-hours: ${ORPHAN_RETENTION_HOURS:24}
+logging:
+  level:
+    org.apache.poi: WARN
