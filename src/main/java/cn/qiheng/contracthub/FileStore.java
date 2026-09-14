@@ -56,11 +56,34 @@ public class FileStore {
             for(var v:d.getValues()) inspectPdf(v,visited);
         }
     }
+    /**
+     * 把 SCAN_COMMAND 拆成"可执行文件 + 参数"。支持空格分隔，双引号内可含空格
+     * （例如 "C:\Program Files\x\scan.exe" --quiet %FILE%）。
+     * 早期实现把整个字符串当成可执行文件名，配了参数的扫描命令一律启动失败。
+     */
+    static List<String> commandTokens(String command) {
+        var out=new ArrayList<String>(); var sb=new StringBuilder(); boolean quoted=false;
+        for(char c:command.trim().toCharArray()) {
+            if(c=='"') { quoted=!quoted; continue; }
+            if(!quoted&&Character.isWhitespace(c)) { if(sb.length()>0) { out.add(sb.toString()); sb.setLength(0); } continue; }
+            sb.append(c);
+        }
+        if(sb.length()>0) out.add(sb.toString());
+        return out;
+    }
     void scan(byte[] bytes,String ext) throws IOException {
         if(scanCommand.isBlank()) return;
         Path temp=Files.createTempFile(root,"scan-","."+ext);
-        try { Files.write(temp,bytes); Process p=new ProcessBuilder(scanCommand,temp.toString()).redirectErrorStream(true).redirectOutput(ProcessBuilder.Redirect.DISCARD).start();
-            boolean finished=p.waitFor(60,TimeUnit.SECONDS); if(!finished) p.destroyForcibly(); require(finished&&p.exitValue()==0,422,"FILE_SCAN_FAILED","文件未通过安全扫描");
+        try {
+            Files.write(temp,bytes);
+            var argv=new ArrayList<>(commandTokens(scanCommand));
+            if(argv.isEmpty()) return;
+            argv.add(temp.toString());
+            Process p;
+            try { p=new ProcessBuilder(argv).redirectErrorStream(true).redirectOutput(ProcessBuilder.Redirect.DISCARD).start(); }
+            catch(IOException e) { throw new ApiException(422,"FILE_SCAN_FAILED","安全扫描程序无法启动，请检查 SCAN_COMMAND 配置："+argv.getFirst()); }
+            boolean finished=p.waitFor(60,TimeUnit.SECONDS); if(!finished) p.destroyForcibly();
+            require(finished&&p.exitValue()==0,422,"FILE_SCAN_FAILED","文件未通过安全扫描");
         } catch(InterruptedException e) { Thread.currentThread().interrupt(); throw new IOException(e); } finally { Files.deleteIfExists(temp); }
     }
     Map<String,Object> store(byte[] bytes,String name,String ext,String purpose,String actor) {
@@ -73,6 +96,9 @@ public class FileStore {
     }
     byte[] read(String id) {
         var file=db.one("SELECT * FROM files WHERE id=?",id);
+        // 防御性检查：db.one 目前对空结果已经抛 404，但 read() 的入参可能来自外部拼装，
+        // 这里保证"文件 id 为空/记录已清理"永远是 404，而不是在 path() 里踩空指针变成 500。
+        require(file!=null,404,"NOT_FOUND","文件不存在或已被清理");
         try { byte[] bytes=Files.readAllBytes(path(file)); require(hash(bytes).equals(file.get("sha256")),409,"FILE_INTEGRITY_ERROR","文件校验失败，请联系管理员恢复备份"); return bytes; }
         catch(IOException e) { throw new ApiException(409,"FILE_MISSING","文件缺失，请联系管理员恢复备份"); }
     }

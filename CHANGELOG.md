@@ -53,6 +53,19 @@
 | 用 `pg_isready` 判断数据库就绪 | 首次初始化时误判，应用启动失败 | 改为实际连接一次数据库 |
 | 版本/模板软删除后无法清理 | 废弃数据长期残留 | 改为物理删除 + 引用回收 + 审计 |
 
+### 代码评审后的加固（同日）
+
+外部代码评审提出 6 条，逐条核对后确认 3 条属实、3 条不成立（详见提交说明）。已修复：
+
+| 项 | 说明 |
+| --- | --- |
+| 渲染配置标识写死 | `contract_revisions.render_profile_id` / `review_receipts.render_profile_id` 原先硬编码 `libreoffice-noto-cjk-v1`，现在统一取 `app.render-profile`（`GenerationService.renderProfile()`），换渲染环境后审计与确认凭据记录的值不再说谎 |
+| `SCAN_COMMAND` 不支持带参数 | 原实现把整串当成可执行文件名（`new ProcessBuilder(scanCommand, file)`），配 `clamscan --no-summary` 这类命令必然失败；现按"可执行文件 + 参数"解析（支持引号内空格），并在程序无法启动时返回 422 `FILE_SCAN_FAILED` + 明确提示，而不是 500 |
+| 未就绪状态下的提示不可操作 | 试填/生成未成功时，原先由 `Db.one` 抛出通用 404「记录不存在或无权访问」；现改为 409 + `TEST_NOT_READY` / `PREVIEW_NOT_READY` / `REVIEW_OUTDATED`，直接告诉用户"请先试填/先生成全文/重新确认" |
+| 分页参数越界 | `page` 原只有下限；`page=2147483647` 会让 `(page-1)*size` 溢出成负 OFFSET → 数据库报错（500）。现三个列表接口都夹紧到 `1 ≤ page ≤ 1000000`、`size ≤ 100/200`，并用测试固化 |
+
+新增 `scripts/test-api-guards.cjs`：不需要浏览器，用内存库起一个真实实例，把上面这些行为（404 而不是 500、409 提示、分页夹紧、带参数的扫描命令）全部断言一遍，共 16 项检查。
+
 ---
 
 ## 后续计划（未实现）

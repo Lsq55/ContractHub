@@ -14,7 +14,7 @@ class OperationsController {
  OperationsController(Db db,AuthService auth,FileStore files,GenerationService generation){this.db=db;this.auth=auth;this.files=files;this.generation=generation;}
  /** 支持按操作人/动作/对象/日期筛选与分页，避免审计页只能看到最新若干条。 */
  @GetMapping("/audit-logs") Object audit(HttpServletRequest r,@RequestParam(defaultValue="") String q,@RequestParam(defaultValue="") String actor,@RequestParam(defaultValue="") String action,@RequestParam(defaultValue="") String objectType,@RequestParam(defaultValue="") String from,@RequestParam(defaultValue="") String to,@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="50") int size){
-  auth.role(auth.actor(r),"ADMIN"); size=Math.max(1,Math.min(size,200)); page=Math.max(page,1);
+  auth.role(auth.actor(r),"ADMIN"); size=Math.max(1,Math.min(size,200)); page=Math.max(1,Math.min(page,1_000_000));
   String term="%"+q.toLowerCase(Locale.ROOT)+"%", who="%"+actor.toLowerCase(Locale.ROOT)+"%";
   Timestamp start=startOf(from), end=endOf(to);
   String where=" WHERE (?='' OR LOWER(a.action||' '||a.object_type||' '||COALESCE(a.object_id,'')||' '||a.request_id) LIKE ?)"+

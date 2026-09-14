@@ -23,6 +23,11 @@ public class GenerationService {
         this.cleanupEnabled=cleanupEnabled;this.orphanRetentionHours=Math.max(1,orphanRetentionHours);
     }
     String fingerprint(Map<String,Object> version) { return hash(str(version,"schema_hash")+":"+(version.get("docx_file_id")==null?"":str(db.one("SELECT sha256 FROM files WHERE id=?",version.get("docx_file_id")),"sha256"))+":"+num(version,"lock_version")+":"+profile); }
+    /**
+     * 当前生效的渲染配置标识（app.render-profile）。修订与确认凭据都要记这个值，
+     * 不能写死字面量，否则换了渲染环境（LibreOffice/字体）后审计里记录的就是错的。
+     */
+    String renderProfile() { return profile; }
     /** 转换服务可用性，供系统状态页显示（不暴露路径）。 */
     boolean converterAvailable() {
         try {

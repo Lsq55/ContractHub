@@ -285,7 +285,14 @@ mvn spring-boot:run            # 开发运行
 
 ```bash
 mvn package
-node scripts/test-auth.cjs     # 需要 Node.js、Playwright 与 Microsoft Edge
+node scripts/test-auth.cjs        # 需要 Node.js、Playwright 与 Microsoft Edge
+```
+
+接口健壮性回归（不需要浏览器，只要 Node + java：文件不存在返回 404 而不是 500、未就绪状态返回 409 提示、分页越界不再报数据库错误、`SCAN_COMMAND` 支持带参数）：
+
+```bash
+mvn package
+node scripts/test-api-guards.cjs  # 16 项检查，全部通过才输出 ALL_PASS
 ```
 
 约定：

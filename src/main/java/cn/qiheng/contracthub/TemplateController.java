@@ -46,7 +46,7 @@ public class TemplateController {
         return "text";
     }
     @GetMapping("/templates") Object list(HttpServletRequest r,@RequestParam(defaultValue="") String q,@RequestParam(defaultValue="") String category,@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="20") int size) {
-        boolean user=str(auth.actor(r),"role").equals("USER"); size=Math.max(1,Math.min(size,100)); page=Math.max(page,1);
+        boolean user=str(auth.actor(r),"role").equals("USER"); size=Math.max(1,Math.min(size,100)); page=Math.max(1,Math.min(page,1_000_000));
         String where=" WHERE t.deleted_at IS NULL AND (LOWER(t.name) LIKE ? OR LOWER(t.code) LIKE ?) AND (?='' OR t.category=?)"+(user?" AND t.status='ACTIVE' AND t.current_version_id IS NOT NULL":"");
         String query="%"+q.toLowerCase(Locale.ROOT)+"%";
         return Map.of("items",db.list("SELECT t.*,u.display_name AS maintainer_name,v.version_no AS current_version_no,(SELECT COUNT(*) FROM template_versions tv WHERE tv.template_id=t.id AND tv.deleted_at IS NULL) AS version_count FROM templates t JOIN users u ON u.id=t.created_by LEFT JOIN template_versions v ON v.id=t.current_version_id"+where+" ORDER BY t.updated_at DESC LIMIT ? OFFSET ?",query,query,category,category,size,(page-1)*size),"total",db.count("SELECT COUNT(*) FROM templates t"+where,query,query,category,category),"page",page,"size",size);
@@ -310,7 +310,10 @@ public class TemplateController {
     /** 打开试填生成的 PDF：既让维护员核对版式，也记录"已查看"，试填确认才有依据。 */
     @GetMapping("/template-versions/{id}/test-preview") Object testPreview(@PathVariable String id,HttpServletRequest r) {
         maintain(r); var v=version(id);
-        var job=db.one("SELECT * FROM generation_jobs WHERE id=? AND state='SUCCEEDED'",v.get("test_job_id"));
+        // 用 find 而不是 one：任务还没成功时给"请重新试填"这种能照着做的提示，
+        // 而不是 one() 的通用 404「记录不存在或无权访问」。
+        var job=db.find("SELECT * FROM generation_jobs WHERE id=? AND state='SUCCEEDED'",v.get("test_job_id"));
+        require(job!=null,409,"TEST_NOT_READY","试填还没成功或试填产物已被清理，请重新试填");
         String sha=str(db.one("SELECT sha256 FROM files WHERE id=?",job.get("pdf_file_id")),"sha256");
         db.recordPreviewView(str(auth.actor(r),"id"),str(job,"id"),sha);
         return download(str(job,"pdf_file_id"),"模板试填-V"+v.get("version_no")+".pdf",true,r,"TEMPLATE_TEST_PREVIEWED",id);
@@ -383,7 +386,10 @@ public class TemplateController {
         maintain(r); var v=version(id); require(Set.of("docx","pdf","original").contains(format),422,"INVALID_FORMAT","文件格式无效");
         if(format.equals("original")) { require(v.get("original_docx_file_id")!=null,404,"NOT_FOUND","该版本没有单独的原始上传件（母版本身就是原始文件）");
             return download(str(v,"original_docx_file_id"),"模板原始上传件-V"+v.get("version_no")+".docx",false,r,"TEMPLATE_SOURCE_ORIGINAL",id); }
-        return download(str(v,format.equals("pdf")?"source_pdf_file_id":"docx_file_id"),"模板-V"+v.get("version_no")+"."+format,false,r,"TEMPLATE_SOURCE",id);
+        // 没传过的文件要明确说清楚，否则空 id 会一路走到存储层变成 500。
+        String fileId=str(v,format.equals("pdf")?"source_pdf_file_id":"docx_file_id");
+        require(!fileId.isBlank(),404,"NOT_FOUND",format.equals("pdf")?"该版本没有上传 PDF 原件":"该版本还没有上传 DOCX 母版");
+        return download(fileId,"模板-V"+v.get("version_no")+"."+format,false,r,"TEMPLATE_SOURCE",id);
     }
     ResponseEntity<byte[]> download(String fileId,String name,boolean inline,HttpServletRequest r,String action,String objectId) {
         var file=db.one("SELECT * FROM files WHERE id=?",fileId); byte[] bytes=files.read(fileId);
