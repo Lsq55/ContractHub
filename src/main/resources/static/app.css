@@ -195,12 +195,12 @@ input:disabled,select:disabled,textarea:disabled{background:var(--grey-soft);col
 .form-grid label{font-weight:600;font-size:13px;color:var(--ink-2)}
 .form-grid input,.form-grid select,.form-grid textarea{display:block;width:100%;margin-top:6px}
 .form-grid textarea{min-height:88px;resize:vertical;line-height:1.6}
-/* 危险操作靠左、主要操作靠右：只调位置，不动顺序与行为 */
+/* 弹窗底部按钮：第一个（关闭/取消）靠左，其余靠右；危险操作保持红色描边，位置不再乱跳 */
 .form-actions{
   display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;
   padding:14px 22px 18px;border-top:1px solid var(--line-2);
 }
-.form-actions .danger{margin-right:auto}
+.form-actions>:first-child{margin-right:auto}
 .json-editor{
   min-height:280px;font-family:ui-monospace,Consolas,"Courier New",monospace;
   font-size:12px;line-height:1.6;white-space:pre;background:var(--card-2);

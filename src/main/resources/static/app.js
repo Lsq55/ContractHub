@@ -252,7 +252,9 @@ async function newContract(){
 function jobNotice(c){
   if(!c.job_state)return '';
   if(c.job_state==='FAILED')return `<div class="error" role="alert" style="margin-bottom:10px">上次生成失败：${esc(c.job_error||'未知错误')}。可再次点击“生成全文预览”。</div>`;
-  if(c.current_revision_matches_draft===false)return `<div class="muted" style="margin-bottom:10px">草稿在生成后被修改过，当前全文不是最新内容，请重新生成后再定稿。</div>`;
+  // 只对草稿提示"内容已变、需要重新生成"：定稿时 lock_version 会递增，定稿/已签署合同的
+  // 草稿版本必然对不上，不加 status 判断就会在正式合同上显示"请重新生成后再定稿"，纯属误导。
+  if(c.status==='DRAFT'&&c.current_revision_matches_draft===false)return `<div class="muted" style="margin-bottom:10px">草稿在生成后被修改过，当前全文不是最新内容，请重新生成后再定稿。</div>`;
   return '';
 }
 function signedSection(c){
