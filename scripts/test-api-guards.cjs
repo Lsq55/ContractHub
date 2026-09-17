@@ -10,7 +10,9 @@ const { tmpdir } = require('node:os');
 const { join, resolve } = require('node:path');
 const { randomUUID } = require('node:crypto');
 
-const port = 18082;
+// 每次跑用一个随机高位端口：上一轮的 JVM 可能还没完全退出，固定端口会出现"抢端口"
+// 导致的假故障（启动失败、输出为空）。
+const port = 18100 + Math.floor(Math.random() * 800);
 const base = `http://127.0.0.1:${port}/api/v1`;
 const storage = mkdtempSync(join(tmpdir(), 'qiheng-guards-'));
 const password = 'Temp-' + randomUUID();
@@ -61,7 +63,9 @@ async function main() {
       await sleep(250);
     }
     assert(ready, '服务健康检查超时：' + logs.slice(-800));
-    assert(logs.includes('管理员初始化完成'), '管理员未初始化：' + logs.slice(-800));
+    // 初始化提示由 java 写进它自己的那条管道，可能比健康检查晚一拍才被读到；
+    // 真正的证明是下面能登录成功，所以这里只等一小会儿，不作为失败条件。
+    for (let i = 0; i < 20 && !logs.includes('管理员初始化完成'); i++) await sleep(250);
 
     let r = await call('/auth/csrf'); assert.equal(r.status, 200, 'csrf');
     r = await call('/auth/login', { method: 'POST', json: { username: 'guard_admin', password } });

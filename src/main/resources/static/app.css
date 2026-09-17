@@ -1,29 +1,271 @@
-:root{--ink:#13233f;--muted:#6b7891;--line:#e5eaf1;--bg:#f5f7fb;--blue:#2864e8;--blue2:#eaf0ff;--green:#16a072;--orange:#d98224;--red:#d84b58}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,"Microsoft YaHei",sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0}.primary{background:var(--blue);color:#fff;padding:11px 18px;border-radius:8px;font-weight:600;box-shadow:0 5px 14px #2864e82b}.ghost{background:#fff;color:var(--ink);border:1px solid var(--line);padding:10px 16px;border-radius:8px}.muted,p{color:var(--muted)}header{height:74px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 40px;gap:46px}.brand{display:flex;align-items:center;gap:10px;width:192px}.mark,.logo-large{display:grid;place-items:center;background:linear-gradient(135deg,#2864e8,#5e8efa);color:#fff;border-radius:12px;font-weight:700}.mark{width:36px;height:36px;font-size:20px}.brand h1{margin:0;font-size:19px;letter-spacing:2px}.brand small{color:var(--muted);font-size:11px}nav{display:flex;gap:27px;flex:1;height:100%;align-items:center}nav a{color:var(--muted);text-decoration:none;height:100%;display:flex;align-items:center;position:relative}nav a.active,nav a:hover{color:var(--blue);font-weight:600}nav a.active:after{content:"";position:absolute;height:3px;background:var(--blue);bottom:0;left:0;right:0;border-radius:2px}.user{display:flex;align-items:center;gap:16px}.user:before{content:"";width:30px;height:30px;border-radius:50%;background:#dde7ff}main{max-width:1240px;margin:0 auto;padding:34px 28px}.page-title{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:26px}.page-title h2{margin:0 0 6px;font-size:26px}.page-title p{margin:0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}.stats>div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:19px 21px;position:relative}.stats span,.stats small{display:block;color:var(--muted)}.stats strong{display:block;font-size:31px;margin:8px 0 2px}.panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:0 20px}.panel-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}.panel-head h3{font-size:16px}.panel-head a{color:var(--blue);text-decoration:none}.toolbar{display:flex;gap:10px;margin-bottom:18px}.toolbar input{flex:1}.toolbar input,.toolbar select,input,select{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;outline:0}.toolbar input:focus,input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #2864e81a}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th{text-align:left;color:var(--muted);font-weight:500;font-size:12px;padding:14px 10px;border-bottom:1px solid var(--line)}.table td{padding:15px 10px;border-bottom:1px solid var(--line)}.table tr:last-child td{border:0}.table .main-cell{font-weight:600}.table .sub{font-size:12px;color:var(--muted);font-weight:400}.badge{padding:4px 9px;border-radius:20px;font-size:12px;white-space:nowrap}.badge.draft{background:#fff3dc;color:#b76c00}.badge.finalized{background:#e8f0ff;color:#3566c6}.badge.signed{background:#e0f6ef;color:#087c59}.badge.void{background:#f1f2f5;color:#7d8595}.action{color:var(--blue);background:none;padding:4px}.login{min-height:calc(100vh - 142px);display:grid;place-items:center}.login-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:40px 44px;width:390px;box-shadow:0 12px 40px #1b2a4b0d}.logo-large{width:52px;height:52px;font-size:28px;margin:0 auto 15px}.login-card h2{text-align:center;margin:0}.login-card>p{text-align:center;margin:4px 0 26px}.login-card label{display:block;font-weight:600;margin:15px 0}.login-card input{display:block;width:100%;margin-top:6px}.login-card .primary{width:100%;margin-top:10px}.error{color:var(--red);font-size:12px;margin-top:12px;min-height:20px}.modal{position:fixed;inset:0;background:#13233f66;display:grid;place-items:center;padding:20px;z-index:5}.modal-card{background:#fff;border-radius:14px;width:min(650px,100%);max-height:90vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--line)}.modal-head h3{margin:0}.close{font-size:25px;color:var(--muted);background:none}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px;padding:22px}.form-grid .full{grid-column:1/-1}.form-grid label{font-weight:600}.form-grid input,.form-grid select,.form-grid textarea{display:block;width:100%;margin-top:6px}.form-grid textarea{min-height:90px;resize:vertical;border:1px solid var(--line);border-radius:8px;padding:10px}.form-actions{padding:0 22px 22px;display:flex;justify-content:flex-end;gap:10px}.empty{padding:42px;text-align:center;color:var(--muted)}.toast{position:fixed;right:28px;bottom:28px;background:#182b4c;color:#fff;padding:12px 18px;border-radius:9px;opacity:0;transform:translateY(10px);transition:.2s;z-index:6}.toast.show{opacity:1;transform:none}@media(max-width:850px){header{padding:0 18px;gap:14px}.brand{width:auto}nav{gap:14px;font-size:12px}.user span{display:none}main{padding:25px 16px}.stats{grid-template-columns:1fr 1fr}}@media(max-width:550px){nav{display:none}.stats{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}}
+/* ============================================================================
+   契衡合同管理系统 —— 界面样式（浅色主题）
+   设计取向：白色卡片 + 浅灰蓝底、克制的蓝色强调色、圆角与极轻阴影。
+   只改外观：所有 class / id / 状态钩子都与 app.js、index.html 保持一致。
+   ========================================================================== */
 
-.modal[hidden]{display:none!important}
+:root{
+  --bg:#f4f6fb;            /* 页面底色 */
+  --card:#fff;             /* 卡片 */
+  --card-2:#f7f9fd;        /* 次级卡片/表头 */
+  --ink:#1b2436;           /* 主文字 */
+  --ink-2:#3d4a61;         /* 次文字 */
+  --muted:#6f7c93;         /* 弱文字 */
+  --line:#e4e9f2;          /* 边框 */
+  --line-2:#eef2f8;        /* 更淡的分隔线 */
+  --blue:#2f6bff;          /* 强调色 */
+  --blue-dark:#1f56d8;
+  --blue-soft:#eef3ff;
+  --green:#0f9d76;
+  --green-soft:#e6f7f1;
+  --amber:#a9741b;
+  --amber-soft:#fdf4e4;
+  --red:#d9455a;
+  --red-soft:#fdeef1;
+  --grey-soft:#f0f2f7;
+  --r-sm:8px;
+  --r:10px;
+  --r-lg:14px;
+  --shadow-1:0 1px 2px rgba(17,24,39,.04), 0 1px 3px rgba(17,24,39,.05);
+  --shadow-2:0 12px 34px rgba(17,24,39,.10);
+  --ring:0 0 0 3px rgba(47,107,255,.16);
+}
 
-.login[hidden]{display:none!important}
-#workspace[hidden]{display:none!important}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font:14px/1.6 Inter,"Microsoft YaHei","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;
+}
+h1,h2,h3,h4{margin:0 0 6px;font-weight:600;color:var(--ink)}
+h2{font-size:22px}
+h3{font-size:17px}
+h4{margin:0 0 10px;font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+p{margin:0 0 6px;color:var(--muted)}
+a{color:var(--blue)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0;background:none;border-radius:var(--r);transition:background .15s,border-color .15s,color .15s,box-shadow .15s,transform .06s}
+button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+/* 禁用按钮用"禁止"光标，不要用 cursor:wait：分页的上一页/下一页在首/末页是 disabled，
+   用 wait 会让鼠标一移上去就变成一直转圈的"忙"光标，看起来像卡住、点不动像故障。 */
+button:disabled{cursor:not-allowed;opacity:.6}
+/* 真正"正在提交/处理中"的按钮（登录、创建、改密…）由脚本加上这个类，保留忙碌光标。 */
+button.busy{cursor:progress}
+
+/* ---------- 状态钩子（app.js 会切换这些类，不能改语义） ---------- */
+[hidden]{display:none!important}
+.modal[hidden],.login[hidden],#workspace[hidden]{display:none!important}
 body:not(.authenticated) header{display:none}
 body.authenticated header{display:flex}
 body:not(.authenticated) #workspace{display:none!important}
-
-/* Author display rules must never override the hidden state. */
-[hidden]{display:none!important}
 body.password-required header nav{display:none}
-/* 禁用按钮用"禁止"光标，不要用 cursor:wait —— 分页的上一页/下一页在首/末页是 disabled，
-   用 wait 会让鼠标一移上去就变成一直转圈的"忙"光标，看起来像卡住了，还会让人以为点不动是故障。 */
-button:disabled{cursor:not-allowed;opacity:.65}
-/* 真正"正在提交/处理中"的按钮（登录、创建、改密…）由脚本加上这个类，保留忙碌光标。 */
-button.busy{cursor:progress}
+
+/* ---------- 顶部导航 ---------- */
+header{
+  position:sticky;top:0;z-index:4;height:66px;background:#fff;
+  border-bottom:1px solid var(--line);display:flex;align-items:center;
+  padding:0 26px;gap:30px;box-shadow:0 1px 0 rgba(17,24,39,.02);
+}
+.brand{display:flex;align-items:center;gap:11px;flex:0 0 auto}
+.brand h1{margin:0;font-size:18px;letter-spacing:3px}
+.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.05em}
+.mark,.logo-large{
+  display:grid;place-items:center;color:#fff;font-weight:700;flex:0 0 auto;
+  background:linear-gradient(135deg,#4f86ff,#2f6bff 55%,#1f56d8);
+  border-radius:11px;box-shadow:0 4px 12px rgba(47,107,255,.28);
+}
+.mark{width:34px;height:34px;font-size:18px}
+nav{display:flex;align-items:center;gap:6px;flex:1;min-width:0;overflow-x:auto}
+nav a{
+  color:var(--ink-2);text-decoration:none;padding:8px 13px;border-radius:999px;
+  white-space:nowrap;transition:background .15s,color .15s;
+}
+nav a:hover{background:var(--grey-soft);color:var(--ink)}
+nav a.active{background:var(--blue-soft);color:var(--blue);font-weight:600}
+.user{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+.user:before{content:"";width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#dbe6ff,#c3d4ff);border:1px solid #cddcff}
+#who{color:var(--ink-2);font-weight:600}
+.user .ghost{padding:7px 12px;font-size:13px}
+
+/* ---------- 页面骨架 ---------- */
+main{max-width:1280px;margin:0 auto;padding:26px 26px 44px}
+.page-title{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.page-title p{margin:2px 0 0}
+.page-title .primary{padding:11px 20px}
+
+/* ---------- 统计卡 ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stats>div{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:16px 18px 15px;box-shadow:var(--shadow-1);overflow:hidden;
+}
+.stats>div:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue);opacity:.85}
+.stats>div:nth-child(2):before{background:#e0a33c}
+.stats>div:nth-child(3):before{background:#5b8def}
+.stats>div:nth-child(4):before{background:var(--green)}
+.stats span,.stats small{display:block;color:var(--muted);font-size:12.5px}
+.stats strong{display:block;font-size:29px;line-height:1.2;margin:6px 0 0;font-weight:600}
+
+/* ---------- 面板 ---------- */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:2px 20px 6px;box-shadow:var(--shadow-1)}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line-2)}
+.panel-head h3{font-size:15px}
+.panel-head a{text-decoration:none;font-size:13px}
+
+/* ---------- 工具条 / 表单控件 ---------- */
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.toolbar input{flex:1 1 190px;min-width:150px;max-width:420px}
+.toolbar select{flex:0 0 auto;min-width:140px}
+.toolbar .ghost,.toolbar .primary{flex:0 0 auto}
+input,select,textarea{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;
+  color:var(--ink);outline:0;transition:border-color .15s,box-shadow .15s;max-width:100%;
+}
+input::placeholder,textarea::placeholder{color:#9aa6bb}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:var(--ring)}
+input:disabled,select:disabled,textarea:disabled{background:var(--grey-soft);color:var(--muted);cursor:not-allowed}
+
+/* ---------- 按钮 ---------- */
+.primary{
+  background:var(--blue);color:#fff;padding:10px 18px;font-weight:600;
+  box-shadow:0 6px 16px rgba(47,107,255,.24);
+}
+.primary:hover:not(:disabled){background:var(--blue-dark);transform:translateY(-1px)}
+.primary:active:not(:disabled){transform:none}
+.ghost{background:#fff;color:var(--ink-2);border:1px solid var(--line);padding:9px 15px}
+.ghost:hover:not(:disabled){border-color:#c7d6ff;color:var(--blue);background:var(--blue-soft)}
+.danger{color:var(--red);border-color:#f2c9d1;background:#fff}
+.danger:hover:not(:disabled){background:var(--red-soft);border-color:#e79aa8;color:#c02b43}
+.action{color:var(--blue);padding:5px 8px;border-radius:var(--r-sm);font-size:13px}
+.action:hover{background:var(--blue-soft)}
+.action.danger{color:var(--red);background:none}
+.action.danger:hover{background:var(--red-soft)}
+
+/* ---------- 表格 ---------- */
+.table-wrap{overflow:auto;border-radius:var(--r)}
+.table{width:100%;border-collapse:collapse}
+.table th{
+  text-align:left;color:var(--muted);font-weight:600;font-size:12px;letter-spacing:.03em;
+  padding:10px 10px;border-bottom:1px solid var(--line);background:var(--card-2);white-space:nowrap;
+}
+.table td{padding:14px 10px;border-bottom:1px solid var(--line-2);vertical-align:middle}
+.table tbody tr{transition:background .12s}
+.table tbody tr:hover{background:#f8faff}
+.table tr:last-child td{border-bottom:0}
+.table .main-cell{font-weight:600}
+.table .sub{font-size:12px;color:var(--muted);font-weight:400;margin-top:2px}
+
+/* ---------- 状态徽标 ---------- */
+.badge{
+  display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;
+  font-size:12px;font-weight:600;white-space:nowrap;line-height:1.7;
+}
+.badge:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.85}
+.badge.draft{background:var(--amber-soft);color:var(--amber)}
+.badge.finalized{background:var(--blue-soft);color:#2f6bff}
+.badge.signed{background:var(--green-soft);color:var(--green)}
+.badge.void{background:var(--grey-soft);color:var(--muted)}
+
+.empty{padding:38px 20px;text-align:center;color:var(--muted)}
+.muted,.sub{color:var(--muted)}
+.sub{font-size:12px}
+
+/* ---------- 弹窗 ---------- */
+.modal{
+  position:fixed;inset:0;z-index:5;padding:22px;background:rgba(17,24,39,.42);
+  display:grid;place-items:center;backdrop-filter:blur(3px);
+}
+.modal-card{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  width:min(760px,100%);max-height:90vh;overflow:auto;box-shadow:var(--shadow-2);
+}
+.modal-head{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:16px 22px;border-bottom:1px solid var(--line-2);
+  position:sticky;top:0;background:#fff;z-index:1;border-radius:16px 16px 0 0;
+}
+.modal-head h3{margin:0;font-size:16.5px}
+.close{
+  width:34px;height:34px;display:grid;place-items:center;font-size:22px;line-height:1;
+  color:var(--muted);background:none;border-radius:var(--r-sm);
+}
+.close:hover{background:var(--grey-soft);color:var(--ink)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px 18px;padding:20px 22px}
+.form-grid .full{grid-column:1/-1}
+.form-grid label{font-weight:600;font-size:13px;color:var(--ink-2)}
+.form-grid input,.form-grid select,.form-grid textarea{display:block;width:100%;margin-top:6px}
+.form-grid textarea{min-height:88px;resize:vertical;line-height:1.6}
+/* 危险操作靠左、主要操作靠右：只调位置，不动顺序与行为 */
+.form-actions{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;
+  padding:14px 22px 18px;border-top:1px solid var(--line-2);
+}
+.form-actions .danger{margin-right:auto}
+.json-editor{
+  min-height:280px;font-family:ui-monospace,Consolas,"Courier New",monospace;
+  font-size:12px;line-height:1.6;white-space:pre;background:var(--card-2);
+}
+
+/* ---------- 模板版本行 ---------- */
+.version-row{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  border:1px solid var(--line);border-radius:var(--r-lg);background:var(--card-2);
+  padding:13px 15px;margin-bottom:12px;transition:border-color .15s,box-shadow .15s;
+}
+.version-row:hover{border-color:#cfdcff;box-shadow:var(--shadow-1)}
+.version-meta{display:flex;align-items:center;gap:10px;flex:1 1 260px;min-width:230px;flex-wrap:wrap}
+.version-meta b{font-size:15px}
+.version-row .action{white-space:nowrap}
+.file-pick{
+  display:inline-flex;align-items:center;gap:8px;border:1px dashed #c9d5ea;border-radius:var(--r);
+  padding:7px 11px;color:var(--ink-2);background:#fff;font-size:13px;cursor:pointer;
+}
+.file-pick:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-soft)}
+.file-pick input[type=file]{max-width:160px;font-size:12px}
+.file-pick input[type=color]{
+  width:34px;height:26px;padding:0;border:1px solid var(--line);border-radius:6px;background:#fff;
+}
+
+/* ---------- 登录 / 改密 ---------- */
+.login{min-height:calc(100vh - 66px);display:grid;place-items:center;padding:26px}
+.login-card{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:36px 38px;width:400px;max-width:100%;box-shadow:var(--shadow-2);
+}
+.logo-large{width:52px;height:52px;font-size:25px;margin:0 auto 14px;border-radius:15px}
+.login-card h2{text-align:center;font-size:21px}
+.login-card>p{text-align:center;margin:4px 0 22px}
+.login-card label{display:block;font-weight:600;font-size:13px;color:var(--ink-2);margin:14px 0}
+.login-card input{display:block;width:100%;margin-top:6px}
+.login-card .primary{width:100%;margin-top:12px;padding:12px 18px}
 #password-change .login-card{width:min(440px,100%)}
-/* 深灰色工作台主题 */
-:root{--ink:#e8edf5;--muted:#9aa6b8;--line:#303a4a;--bg:#171b22;--blue:#5d8dff;--blue2:#22345e;--green:#37c895;--orange:#e7a34e;--red:#ef6a77}body{background:var(--bg);color:var(--ink)}header,.panel,.stats>div,.login-card,.modal-card{background:#202631;border-color:var(--line);color:var(--ink)}header{box-shadow:0 1px 0 #0006}.toolbar input,.toolbar select,input,select,.form-grid textarea{background:#171c25;border-color:#3a4658;color:var(--ink)}.ghost{background:#252d3a;border-color:#465367;color:var(--ink)}nav a{color:#aeb9ca}.sub,p,.muted,.stats span,.stats small{color:var(--muted)}.table th,.table td{border-color:var(--line)}.modal{background:#080b10b8}.login-card{box-shadow:0 14px 48px #0006}.toast{background:#e8edf5;color:#151a22}.version-row{border-color:var(--line)}
+.error{color:var(--red);font-size:12.5px;margin-top:10px;min-height:18px}
 
-.danger{color:#ef6a77!important;border-color:#8f3e4a!important}
+/* ---------- 提示条 ---------- */
+.toast{
+  position:fixed;right:24px;bottom:24px;z-index:6;max-width:min(520px,90vw);
+  background:#16213a;color:#fff;padding:12px 18px;border-radius:var(--r);
+  box-shadow:0 14px 34px rgba(16,24,40,.28);font-size:13.5px;
+  opacity:0;transform:translateY(12px);transition:opacity .2s,transform .2s;
+}
+.toast.show{opacity:1;transform:none}
 
-.danger{color:#ef6a77!important;border-color:#8f3e4a!important}
-
-.json-editor{min-height:280px;font-family:Consolas,monospace;font-size:12px;white-space:pre}
-
-.version-meta{display:flex;align-items:center;gap:10px;min-width:240px;flex:1}.version-row{flex-wrap:wrap}.version-row .action{white-space:nowrap}
+/* ---------- 窄屏 ---------- */
+@media(max-width:1000px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+  header{padding:0 16px;gap:14px}
+  .brand small{display:none}
+  main{padding:20px 16px 36px}
+  .form-grid{grid-template-columns:1fr;padding:16px}
+  .form-grid .full{grid-column:auto}
+  .modal-card{max-height:94vh}
+  .form-actions{padding:12px 16px 16px}
+}
+@media(max-width:560px){
+  nav{display:none}
+  .stats{grid-template-columns:1fr}
+  .page-title{flex-direction:column;align-items:stretch}
+  .toast{right:12px;left:12px;bottom:12px;max-width:none}
+}
